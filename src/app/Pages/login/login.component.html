@@ -1,0 +1,18 @@
+<div class="col-md-4 offset-4 " style="justify-content: center; margin-top: 200px;">
+    <form [formGroup]="Login" (ngSubmit)="Save()">
+        <mat-form-field class="example-form">
+            <input class="example-full-width" matInput placeholder="Enter Mobile No." formControlName="mobile" appNumberOnly/>
+            <mat-error>This Field Required</mat-error>
+        </mat-form-field>
+        <mat-form-field class="example-form">
+            <input class="example-full-width" matInput placeholder="password" type="password" formControlName="password">
+            <mat-error>This Field Required</mat-error>
+        </mat-form-field><br>
+        <button mat-raised-button color="primary" [disabled]="isLoading">Save
+            
+            <!-- <span *ngIf="isLoading">
+                    <mat-spinner color="warn" diameter="20"></mat-spinner>   
+            </span> -->
+        </button>
+    </form>
+</div>

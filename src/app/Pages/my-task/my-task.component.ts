@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import {MatDialog} from '@angular/material/dialog';
 import { AddTaskComponent } from './add-task/add-task.component';
+import {MytaskService} from '../../core/services/mytask.service'
 
 @Component({
   selector: 'app-my-task',
@@ -11,9 +11,16 @@ import { AddTaskComponent } from './add-task/add-task.component';
 export class MyTaskComponent implements OnInit {
 
   constructor(
-    public dialog: MatDialog) { }
+    public dialog: MatDialog,
+    private mytaskservice : MytaskService) { }
 
   ngOnInit(): void {
+    this.GetMyTeskData()
+  }
+
+  GetMyTeskData(){
+    console.log("sevice called")
+    this.mytaskservice.GetMyTeskData().subscribe();
   }
 
   addtask(){

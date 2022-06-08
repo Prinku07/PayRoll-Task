@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { BrowserModule } from '@angular/platform-browser';
+
 // costom module
 import { CoreModule } from '../core/core.module';
 import { AngularMaterialModule } from '../angular-material/angular-material.module';
@@ -12,8 +14,14 @@ import { AddTaskComponent } from './my-task/add-task/add-task.component';
 
 
 const routes: Routes = [
+
   {
-    path: '',
+    path : '',
+    redirectTo : 'login',
+    pathMatch : 'full'
+  },
+  {
+    path: 'login',
     component: LoginComponent
 
   },
@@ -39,6 +47,8 @@ const routes: Routes = [
     AngularMaterialModule,
     HttpClientModule,
     CoreModule,
+    BrowserModule,
+
     RouterModule.forChild(routes)
   ],
   entryComponents:[

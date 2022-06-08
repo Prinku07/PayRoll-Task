@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
+
 @Component({
   selector: 'app-add-task',
   templateUrl: './add-task.component.html',
@@ -12,23 +13,39 @@ export class AddTaskComponent implements OnInit {
 
   addTaskForm : FormGroup
   displayFileName: string = '';
-
+  isLoading : boolean = false;
 
   constructor(private fb : FormBuilder) { }
 
 
   ngOnInit(): void {
+   this.createform();
+  }
+
+  createform(){
     this.addTaskForm = this.fb.group({
-      Title: ['', Validators.required],
+      Title: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*')]],
       Description: ['', Validators.required],
       Image : ['', Validators.required],
       LeadId : ['', Validators.required],
-      TaskEndDateDisplay : ['', Validators.required]
+      TaskEndDateDisplay : ['', Validators.required],
+      Priority : ['',Validators.required],
+      UserDisplayIds : ['', Validators.required],
+      TaskDisplayOwners  : ['', Validators.required]
     });
   }
 
+ 
+
   openFile() {
     this.imageFileInput.nativeElement.click();
+  }
+
+  Save(){ 
+    if(this.addTaskForm.invalid) {
+      this.addTaskForm.markAllAsTouched();
+      return;
+    }
   }
 
   handleFileSelect(inputValue: any): void {
@@ -67,5 +84,11 @@ export class AddTaskComponent implements OnInit {
     // });
   }
 
+  openMembers(){
 
-}
+  }
+
+
+  }
+
+

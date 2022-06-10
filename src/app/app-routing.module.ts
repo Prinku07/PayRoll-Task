@@ -1,18 +1,21 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { PagesModule } from './Pages/pages.module';
-
+import { RevserGuard } from './core/Auth/auth-gaurd/reverse.guard';
+import { UnAuthorizedGuard } from './core/Auth/auth-gaurd/unauthorized.gaurd';
 const routes: Routes = [
   {
-    path: 'Pages',
-    loadChildren: () => import('./Pages/pages.module').then(m => m.PagesModule)
+    path: "login",
+    loadChildren: () => import('./Views/Auth/auth.module').then(m => m.AuthModule),
+    canActivate : [RevserGuard]  
   },
-
+  {
+    path : "task",
+    loadChildren : () => import('./Views/my-task/my-task.module').then(m=> m.MyTaskModule),
+    canActivate : [UnAuthorizedGuard]
+  },
 ];
-
 @NgModule({
   imports: [
-    PagesModule,
     RouterModule.forRoot(routes)
   ],
   exports: [RouterModule]

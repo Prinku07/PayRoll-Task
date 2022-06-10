@@ -1,29 +1,35 @@
-
-/* Angular material */
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AngularMaterialModule } from './angular-material/angular-material.module';
-
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { CoreModule } from './core/core.module';
-
-// component
 import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
+import { ToastrModule } from 'ngx-toastr';
 
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+// component
+import { AppComponent } from './app.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+//module
+import { AuthModule } from './Views/Auth/auth.module';
+import { MyTaskModule } from './Views/my-task/my-task.module';
+import { AngularMaterialModule } from './share/angular-material/angular-material.module';
+
+//Toaster service
 @NgModule({
   declarations: [
     AppComponent,
   ],
   imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
+  BrowserModule,
+  BrowserAnimationsModule,
+  HttpClientModule,
+  ReactiveFormsModule,
+  AuthModule,
+  MyTaskModule,
+  ToastrModule.forRoot(),
     AngularMaterialModule,
-    CoreModule,
     AppRoutingModule,
   ],
-  providers: [],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

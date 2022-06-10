@@ -1,9 +1,11 @@
 <div>
-    <div>
-      <h1>Add Task</h1><hr>
-    </div>
-    <form [formGroup]="addTaskForm">
-    <div class="form-group">
+
+    <h1> Add Task</h1>
+    <mat-divider></mat-divider>
+</div>
+
+<form [formGroup]="addTaskForm" style="margin-top:10px;">
+    <div class="form-group row py-3">
         <div class="col-lg-12">
             <mat-form-field class="example-full-width">
                 <input class="kt-pointer example-form" matInput placeholder="Title" formControlName="Title" />
@@ -13,73 +15,74 @@
         </div>
         <div class="col-lg-12">
             <mat-form-field class="example-full-width">
-                <textarea class="kt-pointer example-form" matInput formControlName="Description" placeholder="Description"></textarea>
+                <textarea class="kt-pointer example-form" matInput formControlName="Description"
+                    placeholder="Description"></textarea>
                 <mat-error>Description is required</mat-error>
             </mat-form-field>
         </div>
         <div class="col-lg-12">
             <mat-form-field class="example-full-width">
-                <input class="kt-pointer example-form" matInput placeholder="Attach File" [value]="displayFileName"
+                <input class="kt-pointer example-form" matInput placeholder="Attach File*" [value]="displayFileName"
                     (click)="openFile()" readonly />
                 <input formControlName="Image" hidden />
                 <input #imageFileInput id="imageFileInput" type="file" (change)="handleFileSelect($event.target)"
                     hidden>
             </mat-form-field>
-            <div class="kt-remove-input-value" (click)="removeFile()" *ngIf="displayFileName">Remove
-            </div>
+            <div class="customized-error" *ngIf="getvalidity()">This Field is required</div>
         </div>
-        <div class="row">
         <div class="col-lg-6">
             <mat-form-field class="example-full-width">
                 <mat-select placeholder="Lead/Customer Name" formControlName="LeadId">
                     <mat-form-field class="example-full-width w-95 kt-margin-t-10 m-auto">
-                        <input matInput placeholder="Search" #searchlead placeholder="Search" autocomplete="off">
+                        <input matInput placeholder="Search" #searchlead
+                            (keyup)="searchManager(searchlead.value,'lead')" placeholder="Search" autocomplete="off">
                     </mat-form-field>
-                    <!-- <mat-option *ngFor="let lead of leadFilter" [value]="lead.Id">
+                    <mat-option *ngFor="let lead of leadFilter" [value]="lead.Id">
                         {{lead.LeadName}}
-                    </mat-option> -->
-                    <mat-option>123</mat-option>
-                    <mat-option>456</mat-option>
+                    </mat-option>
                 </mat-select>
+                <mat-error align="start">Please select customer name</mat-error>
             </mat-form-field>
         </div>
         <div class="col-lg-6">
             <mat-form-field class="example-full-width">
-                <input matInput [matDatepicker]="datepicker" placeholder="Select Due Date"
+                <input matInput [matDatepicker]="datepicker" placeholder="Select Due Date" [min]="current"
                     formControlName="TaskEndDateDisplay" (click)="datepicker.open()">
                 <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
                 <mat-datepicker #datepicker></mat-datepicker>
                 <mat-error align="start">Please enterDue Date</mat-error>
             </mat-form-field>
         </div>
-</div>
-
         <div class="col-lg-12">
             <mat-form-field class="example-full-width">
                 <mat-select placeholder="Select Priority" class="kt-pointer example-form" formControlName="Priority">
                     <mat-option value="High">High Priority</mat-option>
                     <mat-option value="Low">Low Priority</mat-option>
                 </mat-select>
+                <mat-error>Priority required</mat-error>
             </mat-form-field>
         </div>
 
         <div class="col-lg-12">
             <mat-form-field class="example-full-width">
-                <input matInput placeholder="Add Users"class="kt-pointer example-form" formControlName="UserDisplayIds"
-                    (click)="openMembers()" />
-                <mat-error>Users is required </mat-error>
+                <input matInput placeholder="Add Users" class="kt-pointer example-form" formControlName="UserDisplayIds"
+                    (click)="openMembers('UserIds')" />
+                    <input matInput formControlName="UserIds" hidden />
+                <mat-error>Users is required </mat-error> 
+            </mat-form-field>
+           
+        </div>
+
+        <div class="col-lg-12">
+            <mat-form-field class="example-full-width">
+                <input matInput placeholder="Add CC Members" class="kt-pointer example-form"
+                    formControlName="TaskDisplayOwners" readonly (click)="openMembers('TaskOwners')" />
+                 <input matInput formControlName="TaskOwners" hidden />
+                <mat-error>Field required</mat-error>
             </mat-form-field>
         </div>
     </div>
-    <div class="col-lg-12">
-        <mat-form-field class="example-full-width">
-            <input matInput placeholder="Add CC Members" class="kt-pointer example-form" formControlName="TaskDisplayOwners" readonly
-                (click)="openMembers()" />
-            <!-- <input matInput formControlName="TaskOwners" hidden /> -->
-        </mat-form-field>
-        <!-- <div class="kt-remove-input-value" (click)="removeOwners('Owner')" *ngIf="data.Action == 'Edit' && taskOwnerCount >= 1">Remove -->
-    </div>
-
+    <mat-divider></mat-divider>
+    <button mat-raised-button color="primary" [disabled]="isLoading" style="float:right; margin-top: 10px;"
+        (click)="Save()">Save</button>
 </form>
-    <button mat-raised-button color="primary" [disabled]="isLoading" style="float:right" (click)="Save()" >Save</button>
-</div>

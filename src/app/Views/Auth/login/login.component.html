@@ -1,0 +1,21 @@
+<div class="col-md-4 offset-4 " style="justify-content: center; margin-top: 150px;">
+
+    <form [formGroup]="Login" (ngSubmit)="Save()">
+        <mat-form-field class="example-form">
+            <input class="example-full-width" matInput placeholder="Enter Mobile No." formControlName="mobile" appNumberOnly/>
+            <mat-error *ngIf="Login.get('mobile')?.hasError('required')">This Field Required</mat-error>
+            <mat-error *ngIf="Login.get('mobile')?.hasError('pattern')">Please Enter valid Mobile Number</mat-error>           
+        </mat-form-field>
+        <mat-form-field class="example-form">
+            <input class="example-full-width" matInput placeholder="password" type="password" formControlName="password">
+            <mat-error *ngIf="Login.get('password')?.hasError('required')">This Field Required</mat-error>
+            <mat-error *ngIf="Login.get('password')?.hasError('minlength')">Password must 8 characters long</mat-error>        
+        </mat-form-field><br>
+        <button mat-raised-button color="primary" style="margin-left: 420px;" [disabled]="isLoading">Save 
+            <span *ngIf="isLoading">
+                <mat-spinner color="warn" diameter="20" style="display:inline-block"></mat-spinner>   
+            </span> 
+        </button>
+    
+    </form>
+</div>

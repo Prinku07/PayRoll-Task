@@ -9,23 +9,15 @@ export class MytaskService {
 
   constructor(private http: HttpClient) { }
 
-  GetMyTaskData() : Observable<any>{
-    const params = {
-      From: 1,
-      FromDueDate: "",
-      IsArchive: false,
-      Priority: "",
-      SortByDueDate: "",
-      SortColumn: "",
-      SortOrder: "",
-      TaskStatus: "",
-      Title: "",
-      To: 10,
-      ToDueDate: "",
-      UserId: 1,
-      UserIds: ""
-    }
+  GetMyTaskData(params: any) : Observable<any>{
     return this.http.post<any>('api/Task/UserTasksAssignedToMe', params)
+  }
+
+  addTask(taskDetails : any): Observable<any> {
+    return this.http.post('api/Task/AssignTask', taskDetails)
+      .pipe(
+        map(res => res)
+      );
   }
 
   deleteTask(taskId: number): Observable<any> {
@@ -54,28 +46,6 @@ export class MytaskService {
       .pipe(map(
         res => res
       ))
-  }
-
-  removeUsersExistingTask(taskId: any, taskOwners: any): Observable<any> {
-    const params = {
-      Id: taskId,
-      UserIds: taskOwners
-    }
-    return this.http.post('api/Task/RemoveUsersFromExistingTask', params)
-      .pipe(
-        map(res => res)
-      );
-  }
-
-  removeOwnerTask(taskId: any, taskOwners: any): Observable<any> {
-    const params = {
-      Id: taskId,
-      TaskOwners: taskOwners,
-    }
-    return this.http.post('api/Task/RemoveOwnersFromExistingTask', params)
-      .pipe(
-        map(res => res)
-      );
   }
 
 }

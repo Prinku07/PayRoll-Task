@@ -34,7 +34,22 @@ export class MyTaskComponent implements OnInit{
   }
 
   GetMyTaskData(){
-    this.mytaskservice.GetMyTaskData().subscribe(x => {
+    const params = {
+      From: 1,
+      FromDueDate: "",
+      IsArchive: false,
+      Priority: "",
+      SortByDueDate: "",
+      SortColumn: "",
+      SortOrder: "",
+      TaskStatus: "",
+      Title: "",
+      To: 10,
+      ToDueDate: "",
+      UserId: 1,
+      UserIds: ""
+    }
+    this.mytaskservice.GetMyTaskData(params).subscribe(x => {
     // this.getData = x.data.taskList
     // this.dataSource = this.getData
     this.dataSource = x.data.TaskList;

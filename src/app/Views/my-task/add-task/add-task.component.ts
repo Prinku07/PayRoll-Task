@@ -6,7 +6,6 @@ import { map } from 'rxjs';
 import { MytaskService } from 'src/app/core/my-task/mytask.service';
 import { AddMembersComponent } from '../add-members/add-members.component';
 
-
 @Component({
   selector: 'app-add-task',
   templateUrl: './add-task.component.html',
@@ -74,6 +73,10 @@ userDetails: any;
       Title: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*')]],
       Description: ['', Validators.required],
       Image : ['', Validators.required],
+      MultimediaData: [''],
+      MultimediaExtension: [''],
+      MultimediaFileName: [''],
+      MultimediaType: [''],
       LeadId : ['', Validators.required],
       TaskEndDateDisplay : ['', Validators.required],
       Priority : ['',Validators.required],
@@ -109,8 +112,40 @@ userDetails: any;
   }
 
   Save(){ 
+    if(this.addTaskForm.invalid){
     this.addTaskForm.markAllAsTouched();
       return;
+    }
+      const controls = this.addTaskForm.controls;
+      controls['UserIds'].setValue(this.userIds);
+      controls['TaskOwners'].setValue(this.taskOwners);
+      let imageData = controls['Image'].value;
+      controls['MultimediaData'].setValue(imageData);
+      controls['MultimediaExtension'].setValue(this.imageExt);
+      controls['MultimediaFileName'].setValue(this.imageName);
+
+      if (this.imageExt == 'jpeg' || this.imageExt == 'JPEG' || this.imageExt == 'jpg' ||
+        this.imageExt == 'JPG' || this.imageExt == 'png' || this.imageExt == 'PNG' || this.imageExt == 'svg'
+        || this.imageExt == 'SVG') {
+        controls['MultimediaType'].setValue('I');
+      }
+      else {
+        if (this.imageExt) {
+          controls['MultimediaType'].setValue('D');
+        } else {
+          controls['MultimediaType'].setValue('');
+        }
+      }
+     this.isLoading = true;
+    console.log(this.addTaskForm.value)
+      // this.taskservice.addTask(this.addTaskForm.value)
+      //   .pipe(map(res => {
+      //     if (res.Status == 200) {
+      //       this.dialogRef.close({ res, isEdit: false });
+      //     this.isLoading = false;
+      //     }
+          
+      //   })).subscribe();
   }
 
   handleFileSelect(inputValue: any): void {

@@ -10,14 +10,10 @@ export class AppComponent {
   title = 'payroll-task';
   userr: any;
 
-  constructor(private authservice : AuthService) {
-    this.authservice.currentuser.subscribe(res=>{
-      console.log(res)
-      if(res){
-      this.userr = res;
-      }else{
-        return;
-      }
-    })
+  constructor(public authservice : AuthService) {
+    // this.authservice.currentuser.subscribe(res=>{
+    //   console.log(res)
+    //   this.userr = res;
+    // })
   }
 }

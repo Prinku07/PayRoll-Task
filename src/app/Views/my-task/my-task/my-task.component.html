@@ -1,11 +1,11 @@
 
-<button mat-raised-button color="primary" (click)="addtask('add')" class="aligment-button">Add Task</button>
+<button mat-raised-button color="primary" (click)="addtask()" class="aligment-button">Add Task</button>
 <mat-form-field appearance="standard">
     <input matInput (keyup)="applyFilter($event)" placeholder="Search" #input>
   </mat-form-field>
   
   <div class="mat-elevation-z8">
-    <mat-table mat-table [dataSource]="dataSource" matSort>
+    <mat-table mat-table [dataSource]="data" matSort>
   
       <!-- ID Column -->
       <ng-container matColumnDef="Title">
@@ -63,10 +63,10 @@
       <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
   
       <!-- Row shown when there is no matching data. -->
-      <mat-row *matNoDataRow>
-        <mat-cell colspan="4">No data matching the filter "{{input.value}}"</mat-cell>
-      </mat-row>
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" colspan="8">No data matching the filter "{{input.value}}"</td>
+      </tr>
     </mat-table>
   
-    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+    <mat-paginator [pageSizeOptions]="[ 10, 25, 100]" aria-label="Select page of users" [showFirstLastButtons]="true"></mat-paginator>
   </div>

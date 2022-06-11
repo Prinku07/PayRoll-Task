@@ -1,5 +1,5 @@
 
-import {  Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -42,16 +42,16 @@ export class LoginComponent implements OnInit {
     this.authservice.login(authData.username, authData.password)
       .pipe(map((user: any) => {
         this.isLoading = false;
-        if(user.success){
-					let accessToken = 'Basic ' + btoa(authData.username + ':' + authData.password);
+        if (user.success) {
+          this.authservice.currentuserSubject.next(user);
+          let accessToken = 'Basic ' + btoa(authData.username + ':' + authData.password);
           const Token = 'abc.yy.zz';
           localStorage.setItem('token', accessToken);
           localStorage.setItem('user', JSON.stringify(user));
           this.router.navigate(['task']);
-          this.authservice.currentuserSubject.next(user);
         }
         else
-        this.toastr.error(user.errormessage)
+          this.toastr.error(user.errormessage)
       })
       ).subscribe();
   }

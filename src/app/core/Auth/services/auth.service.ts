@@ -11,7 +11,7 @@ export class AuthService {
   public currentuser: Observable<any>
 
   constructor(private http: HttpClient) {
-    this.currentuserSubject = new BehaviorSubject((localStorage.getItem('user')));
+    this.currentuserSubject = new BehaviorSubject(localStorage.getItem('user'));
     this.currentuser = this.currentuserSubject.asObservable();
   }
 
@@ -20,6 +20,10 @@ export class AuthService {
     localStorage.removeItem('user');
     localStorage.removeItem("token");
     this.currentuserSubject.next(null);
+  }
+
+  isLoggedIn() {
+    return !!localStorage.getItem('user');
   }
 
   getToken() {

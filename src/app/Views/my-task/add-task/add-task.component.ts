@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { ChangeDetectorRef, Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -53,7 +54,8 @@ userDetails: any;
     private dialog : MatDialog,
     private taskservice : MytaskService,
     public dialogRef: MatDialogRef<AddTaskComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any,) { 
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private datepipe : DatePipe) { 
       this.dialogRef.disableClose = true;
       this.dialogRef.backdropClick().subscribe(_ => {
         let cn = confirm('Do you want to leave without finishing?')
@@ -72,18 +74,19 @@ userDetails: any;
     this.addTaskForm = this.fb.group({
       Title: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*')]],
       Description: ['', Validators.required],
-      Image : ['', Validators.required],
+      Image : ['', , Validators.required],
       MultimediaData: [''],
       MultimediaExtension: [''],
       MultimediaFileName: [''],
       MultimediaType: [''],
-      LeadId : ['', Validators.required],
-      TaskEndDateDisplay : ['', Validators.required],
+      LeadId : ['', , Validators.required],
+      TaskEndDateDisplay : ['',Validators.required],
       Priority : ['',Validators.required],
       UserDisplayIds : ['', Validators.required],
       UserIds: [''],
-      TaskDisplayOwners  : ['', Validators.required],
-      TaskOwners : ['']
+      TaskDisplayOwners  : ['',, Validators.required],
+      TaskOwners : [''],
+      TaskEndDate: ['']  
     });
   }
 
@@ -137,14 +140,14 @@ userDetails: any;
         }
       }
      this.isLoading = true;
-    console.log(this.addTaskForm.value)
+     let customDate = this.datepipe.transform(controls['TaskEndDateDisplay'].value, 'd MMM yyyy hh:mm a')
+     controls['TaskEndDate'].setValue(customDate);
       this.taskservice.addTask(this.addTaskForm.value)
         .pipe(map(res => {
-          if (res.Status == 200) {
-            this.dialogRef.close({ res, isEdit: false });
           this.isLoading = false;
+          if (res) {
+            this.dialogRef.close({ res, isEdit: false });
           }
-          
         })).subscribe();
   }
 
@@ -154,8 +157,8 @@ userDetails: any;
       var file = inputValue.files[0];
       this.displayFileName = file.name;
       this.imageName = this.displayFileName.replace(/\\/g, "/");
-      let img = (/[^./]*$/.exec(this.imageName));
-       this.imageExt = img
+      let img: any = (/[^./]*$/.exec(this.imageName));
+       this.imageExt = img[0]
       this.imageName = this.imageName.substring(0, this.imageName.lastIndexOf('.'));
       var reader = new FileReader();
         reader.onload = (e: any) => {
@@ -242,6 +245,21 @@ userDetails: any;
       }
   }
   //End
+
+  removeFile() {
+    this.imageFileInput.nativeElement.value = '';
+    this.displayFileName = '';
+    this.addTaskForm.patchValue({
+      Image: '',
+      MultimediaData: '',
+      MultimediaExtension: '',
+      MultimediaFileName: '',
+      MultimediaType: ''
+    });
+  }
+  closedialog(){
+    this.dialogRef.close();
+  }
 
   }
 

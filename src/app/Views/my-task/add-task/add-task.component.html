@@ -26,6 +26,8 @@
                 <input formControlName="Image" hidden />
                 <input #imageFileInput id="imageFileInput" type="file" (change)="handleFileSelect($event.target)"
                     hidden>
+                    <div class="kt-remove-input-value" (click)="removeFile()" *ngIf="displayFileName">Remove
+                    </div>
             </mat-form-field>
             <div class="customized-error" *ngIf="getvalidity()">This Field is required</div>
         </div>
@@ -49,6 +51,7 @@
                     formControlName="TaskEndDateDisplay" (click)="datepicker.open()">
                 <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
                 <mat-datepicker #datepicker></mat-datepicker>
+                <input matInput formControlName="TaskEndDate" hidden />
                 <mat-error align="start">Please enterDue Date</mat-error>
             </mat-form-field>
         </div>
@@ -82,6 +85,12 @@
         </div>
     </div>
     <mat-divider></mat-divider>
-    <button mat-raised-button color="primary" [disabled]="isLoading" style="float:right; margin-top: 10px;"
-        (click)="Save()">Save</button>
+    <button mat-raised-button (click)="closedialog()">Cancel</button>
+    <div style="float:right; margin-top: 10px;">
+    <button mat-raised-button color="primary" [disabled]="isLoading" (click)="Save()">Save
+    <span *ngIf="isLoading">
+        <mat-spinner color="warn" diameter="20" style="display:inline-block"></mat-spinner>   
+    </span>
+    </button>&nbsp;
+    </div>
 </form>

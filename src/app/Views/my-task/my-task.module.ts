@@ -7,7 +7,8 @@ import { AddMembersComponent } from '../my-task/add-members/add-members.componen
 import { UnAuthorizedGuard } from 'src/app/core/Auth/auth-gaurd/unauthorized.gaurd';
 import { ShareModule } from 'src/app/share/share.module';
 import { CoreModule } from 'src/app/core/core.module';
-
+import { DatePipe } from '@angular/common';
+import { RevserGuard } from 'src/app/core/my-task/gaurd/reverse.guard';
 const routes: Routes = [
   {
     path: '',
@@ -20,6 +21,7 @@ const routes: Routes = [
     MyTaskComponent,
     AddTaskComponent,
     AddMembersComponent,
+    
   ],
   imports: [
     RouterModule.forChild(routes),
@@ -35,6 +37,8 @@ const routes: Routes = [
   ],
   providers: [
     UnAuthorizedGuard,
+    DatePipe,
+    RevserGuard
   ]
 })
 export class MyTaskModule { }

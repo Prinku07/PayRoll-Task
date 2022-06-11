@@ -20,7 +20,8 @@
                     <mat-spinner [diameter]="30" class="m-auto"></mat-spinner>
                 </div>
                 <div class="col-lg-12">
-                    <label style="cursor: pointer; width: 100%; margin-bottom: 20px;" *ngFor="let member of memberList">
+                    <label style="cursor: pointer; width: 100%; margin-bottom: 20px; display: flex;
+                    justify-content: space-between;" *ngFor="let member of memberList">
                         <span>{{member.Name}}</span>
                         <span class="float-right">
                             <mat-checkbox [value]="member.UserId"

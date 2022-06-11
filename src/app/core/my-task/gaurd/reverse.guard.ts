@@ -18,7 +18,7 @@ constructor(
         return true;
     }
     alert("please Click on logout button then Relogin")
-    this.router.navigate(['/mytask'])
+    this.router.navigate(['task'])
     return false;
   }
   }

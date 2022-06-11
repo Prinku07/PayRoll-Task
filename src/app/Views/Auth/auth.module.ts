@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 // components
 import { LoginComponent } from './login/login.component';
-import { RevserGuard } from '../../core/Auth/auth-gaurd/reverse.guard';
+import { RevserGuard } from '../../core/my-task/gaurd/reverse.guard';
 import { CoreModule } from 'src/app/core/core.module';
 import { ShareModule } from 'src/app/share/share.module';
 const routes: Routes = [

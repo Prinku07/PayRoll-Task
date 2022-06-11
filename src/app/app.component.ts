@@ -12,8 +12,12 @@ export class AppComponent {
 
   constructor(private authservice : AuthService) {
     this.authservice.currentuser.subscribe(res=>{
-      if(res)
+      console.log(res)
+      if(res){
       this.userr = res;
+      }else{
+        return;
+      }
     })
   }
 }

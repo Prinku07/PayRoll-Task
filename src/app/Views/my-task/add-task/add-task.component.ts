@@ -19,8 +19,8 @@ export class AddTaskComponent implements OnInit {
   isLoading : boolean = false;
   //Image
   displayFileName: string = '';
-  imageName : string = '';
-  imageExt : string = '';
+  imageName : any;
+  imageExt : any;
   MultimediaLink: any = '';
   //date
   current = new Date();
@@ -138,24 +138,27 @@ userDetails: any;
       }
      this.isLoading = true;
     console.log(this.addTaskForm.value)
-      // this.taskservice.addTask(this.addTaskForm.value)
-      //   .pipe(map(res => {
-      //     if (res.Status == 200) {
-      //       this.dialogRef.close({ res, isEdit: false });
-      //     this.isLoading = false;
-      //     }
+      this.taskservice.addTask(this.addTaskForm.value)
+        .pipe(map(res => {
+          if (res.Status == 200) {
+            this.dialogRef.close({ res, isEdit: false });
+          this.isLoading = false;
+          }
           
-      //   })).subscribe();
+        })).subscribe();
   }
 
   handleFileSelect(inputValue: any): void {
+    debugger;
     if (inputValue.files[0] && inputValue.files[0].size < 5000000) {
       var file = inputValue.files[0];
       this.displayFileName = file.name;
       this.imageName = this.displayFileName.replace(/\\/g, "/");
+      let img = (/[^./]*$/.exec(this.imageName));
+       this.imageExt = img
       this.imageName = this.imageName.substring(0, this.imageName.lastIndexOf('.'));
       var reader = new FileReader();
-      reader.onload = (e: any) => {
+        reader.onload = (e: any) => {
         var binaryData = e.target.result;
         var base64String = btoa(binaryData);
         var imagePath = base64String;
@@ -224,7 +227,7 @@ userDetails: any;
   }
    //Search Customer 
    searchManager(searchText: string, type: string) {
-    if (type == 'lead') {
+   
       if (searchText != '') {
         this.leadFilter = this.customerList.filter((item : any)=> {
           if (item.LeadName.toString().toLowerCase().indexOf(searchText.toLowerCase()) !== -1) {
@@ -233,11 +236,10 @@ userDetails: any;
           return false;
         }
         );
-      }
+      } 
       else {
         this.leadFilter = this.customerList;
       }
-    } 
   }
   //End
 

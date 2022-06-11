@@ -9,7 +9,7 @@ export class MytaskService {
 
   constructor(private http: HttpClient) { }
 
-  GetMyTaskData(params: any) : Observable<any>{
+  GetMyTaskData(params: any) : any{
     return this.http.post<any>('api/Task/UserTasksAssignedToMe', params)
   }
 

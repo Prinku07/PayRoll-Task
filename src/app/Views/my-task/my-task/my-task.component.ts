@@ -8,6 +8,8 @@ import {MatSort} from '@angular/material/sort';
 import { ToastrService } from 'ngx-toastr';
 import {MatTableDataSource} from '@angular/material/table';
 import { TaskModel } from 'src/app/core/my-task/task.model';
+import { LoaderService } from 'src/app/core/share/loader.service';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs';
 
 @Component({
   selector: 'app-my-task',
@@ -17,9 +19,23 @@ import { TaskModel } from 'src/app/core/my-task/task.model';
 export class MyTaskComponent implements OnInit{
  
   displayedColumns = ['Title','CustomerName','AssignedBy','AssignedDate','DueDate','Priority','Status','Action'];
- // Tabledata : TaskModel[] = []
- // dataSource =new MatTableDataSource(this.Tabledata)
- dataSource = new MatTableDataSource
+  dataSource = new MatTableDataSource;
+
+  params = {
+  From: 1,
+  FromDueDate: "",
+  IsArchive: false,
+  Priority: "",
+  SortByDueDate: "",
+  SortColumn: "",
+  SortOrder: "",
+  TaskStatus: "",
+  Title: "",
+  To: 10,
+  ToDueDate: "",
+  UserId: 1,
+  UserIds: ""
+}
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -27,31 +43,15 @@ export class MyTaskComponent implements OnInit{
   constructor(
     public dialog: MatDialog,
     private mytaskservice : MytaskService,
-    private toastrservice : ToastrService) { }
+    private toastrservice : ToastrService,) { }
 
   ngOnInit(): void {
     this.GetMyTaskData()
   }
 
   GetMyTaskData(){
-    const params = {
-      From: 1,
-      FromDueDate: "",
-      IsArchive: false,
-      Priority: "",
-      SortByDueDate: "",
-      SortColumn: "",
-      SortOrder: "",
-      TaskStatus: "",
-      Title: "",
-      To: 10,
-      ToDueDate: "",
-      UserId: 1,
-      UserIds: ""
-    }
-    this.mytaskservice.GetMyTaskData(params).subscribe(x => {
-    // this.getData = x.data.taskList
-    // this.dataSource = this.getData
+  
+    this.mytaskservice.GetMyTaskData(this.params).subscribe((x:any) => {
     this.dataSource = x.data.TaskList;
     });
   }   
@@ -84,11 +84,12 @@ export class MyTaskComponent implements OnInit{
 
    applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
+    this.params.Title = filterValue
+    this.mytaskservice.GetMyTaskData(this.params).pipe(map((x : any) =>{
+      this.dataSource = x.data.TaskList;
+      debounceTime(1000),
+      distinctUntilChanged()
+    })).subscribe();
   }
 }
 

@@ -4,8 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { RevserGuard } from '../../core/Auth/auth-gaurd/reverse.guard';
 import { CoreModule } from 'src/app/core/core.module';
-import { AngularMaterialModule } from 'src/app/share/angular-material/angular-material.module';
-
+import { ShareModule } from 'src/app/share/share.module';
 const routes: Routes = [
   {
     path: '',
@@ -19,7 +18,7 @@ const routes: Routes = [
   ],
   imports: [
     CoreModule,
-    AngularMaterialModule,
+    ShareModule,
     RouterModule.forChild(routes)
   ],
   exports: [

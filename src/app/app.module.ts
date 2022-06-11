@@ -13,6 +13,8 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { AuthModule } from './Views/Auth/auth.module';
 import { MyTaskModule } from './Views/my-task/my-task.module';
 import { AngularMaterialModule } from './share/angular-material/angular-material.module';
+import { ShareModule } from './share/share.module';
+import { CoreModule } from './core/core.module';
 
 //Toaster service
 @NgModule({
@@ -26,6 +28,8 @@ import { AngularMaterialModule } from './share/angular-material/angular-material
   ReactiveFormsModule,
   AuthModule,
   MyTaskModule,
+  ShareModule,
+  CoreModule,
   ToastrModule.forRoot(),
     AngularMaterialModule,
     AppRoutingModule,

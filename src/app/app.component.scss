@@ -2,3 +2,17 @@
     justify-content: center;
     margin-top: 200px;
 }
+
+.example-spacer {
+    flex: 1 1 auto;
+  }
+
+.loader-container{
+    position : absolute;
+    height: 100%;
+    width: 100%;
+    opacity: 0.8;
+    z-index: 1;
+    background-color: black;
+
+}

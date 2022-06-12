@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { map } from 'rxjs';
 import { AuthService } from 'src/app/core/Auth/services/auth.service';
+import { LoaderService } from 'src/app/core/share/loader.service';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +20,8 @@ export class LoginComponent implements OnInit {
   constructor(private fb: FormBuilder,
     private router: Router,
     private authservice: AuthService,
-    private toastr: ToastrService) { }
+    private toastr: ToastrService,
+    public loaderservice : LoaderService) { }
 
   ngOnInit(): void {
     this.Login = this.fb.group({
@@ -27,7 +29,6 @@ export class LoginComponent implements OnInit {
       password: ['', [Validators.required, Validators.minLength(8)]],
     });
   }
-
   Save() {
     const controls = this.Login.controls;
     if (this.Login.invalid) {
@@ -43,11 +44,10 @@ export class LoginComponent implements OnInit {
       .pipe(map((user: any) => {
         this.isLoading = false;
         if (user.success) {
-          this.authservice.currentuserSubject.next(user);
           let accessToken = 'Basic ' + btoa(authData.username + ':' + authData.password);
-          const Token = 'abc.yy.zz';
           localStorage.setItem('token', accessToken);
           localStorage.setItem('user', JSON.stringify(user));
+          this.toastr.success("login successfully")
           this.router.navigate(['task']);
         }
         else

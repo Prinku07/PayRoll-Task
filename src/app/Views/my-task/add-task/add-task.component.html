@@ -36,7 +36,7 @@
                 <mat-select placeholder="Lead/Customer Name" formControlName="LeadId">
                     <mat-form-field class="example-full-width w-95 kt-margin-t-10 m-auto">
                         <input matInput placeholder="Search" #searchlead
-                            (keyup)="searchManager(searchlead.value,'lead')" placeholder="Search" autocomplete="off">
+                            (keyup)="searchManager(searchlead.value)" placeholder="Search" autocomplete="off">
                     </mat-form-field>
                     <mat-option *ngFor="let lead of leadFilter" [value]="lead.Id">
                         {{lead.LeadName}}
@@ -85,12 +85,12 @@
         </div>
     </div>
     <mat-divider></mat-divider>
-    <button mat-raised-button (click)="closedialog()">Cancel</button>
     <div style="float:right; margin-top: 10px;">
+    <button mat-raised-button (click)="closedialog()">Cancel</button>&nbsp;
     <button mat-raised-button color="primary" [disabled]="isLoading" (click)="Save()">Save
     <span *ngIf="isLoading">
-        <mat-spinner color="warn" diameter="20" style="display:inline-block"></mat-spinner>   
+        <mat-spinner color="primary" diameter="20" style="display:inline-block"></mat-spinner>   
     </span>
-    </button>&nbsp;
+    </button>
     </div>
 </form>

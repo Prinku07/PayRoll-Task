@@ -1,45 +1,44 @@
 <div>
-    <h1>{{data.action}} Members</h1>
+    <h1>Add Members</h1>
     <mat-divider></mat-divider>
 </div>
 
 <form>
-    <div (scroll)="onscroll($event)">
-        <div class="form-group row">
+    <div class="form-group row">
+        <div class="col-lg-12">
+            <div>
+                <mat-form-field class="example-full-width">
+                    <input class="kt-pointer example-form" matInput #searchInput
+                        (keyup)="searchMember(searchInput.value)" placeholder="Search">
+                </mat-form-field>
+            </div>
+            <div class="col-lg-12 text-center" *ngIf="noRecords">
+                <h6>No Records Found</h6>
+            </div>
+            <div class="d-flex justify-content-center m-3" *ngIf="viewLoading">
+                <mat-spinner [diameter]="30"></mat-spinner>
+            </div>
             <div class="col-lg-12">
-                <div>
-                    <mat-form-field class="example-full-width">
-                        <input class="kt-pointer example-form" matInput #searchInput
-                            (keyup)="searchMember(searchInput.value)" placeholder="Search">
-                    </mat-form-field>
-                </div>
-                <div class="col-lg-12 text-center" *ngIf="noRecords">
-                    <h6>No Records Found</h6>
-                </div>
-                <div class="col-lg-12" *ngIf="viewLoading">
-                    <mat-spinner [diameter]="30" class="m-auto"></mat-spinner>
-                </div>
-                <div class="col-lg-12">
-                    <label style="cursor: pointer; width: 100%; margin-bottom: 20px; display: flex;
+                <label style="cursor: pointer; width: 100%; margin-bottom: 20px; display: flex;
                     justify-content: space-between;" *ngFor="let member of memberList">
-                        <span>{{member.Name}}</span>
-                        <span class="float-right">
-                            <mat-checkbox [value]="member.UserId"
-                                (change)="checkedMember($event, member.UserId, member.Name )"
-                                [checked]="member.isChecked">
-                            </mat-checkbox>
-                        </span>
-                    </label>
-                </div>
+                    <span>{{member.Name}}</span>
+                    <span class="float-right">
+                        <mat-checkbox [value]="member.UserId"
+                            (change)="checkedMember($event, member.UserId, member.Name)" [checked]="member.isChecked">
+                        </mat-checkbox>
+                    </span>
+                </label>
             </div>
         </div>
     </div>
-
     <mat-divider></mat-divider>
     <div style="float:right; margin-top: 10px;">
         <button (click)="onNoClick()" type="button" mat-raised-button> Cancel</button>&nbsp;
-        <button (click)="onSubmit()" type="button" mat-raised-button color="primary"
-            [disabled]="viewLoading">Done</button>
+        <button (click)="onSubmit()" type="button" mat-raised-button color="primary" [disabled]="disablebutton">Done
+            <span *ngIf="disablebutton">
+                <mat-spinner color="primary" diameter="20" style="display:inline-block"></mat-spinner>
+            </span>
+        </button>
     </div>
 
 </form>

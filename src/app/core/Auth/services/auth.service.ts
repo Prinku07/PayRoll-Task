@@ -7,19 +7,11 @@ import { BehaviorSubject, Observable } from 'rxjs';
 })
 export class AuthService {
 
-  public currentuserSubject: BehaviorSubject<any>;
-  public currentuser: Observable<any>
-
-  constructor(private http: HttpClient) {
-    this.currentuserSubject = new BehaviorSubject(localStorage.getItem('user'));
-    this.currentuser = this.currentuserSubject.asObservable();
-  }
-
+  constructor(private http: HttpClient) {}
 
   logout() {
     localStorage.removeItem('user');
     localStorage.removeItem("token");
-    this.currentuserSubject.next(null);
   }
 
   isLoggedIn() {

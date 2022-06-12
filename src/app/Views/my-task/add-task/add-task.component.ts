@@ -74,19 +74,18 @@ userDetails: any;
     this.addTaskForm = this.fb.group({
       Title: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*')]],
       Description: ['', Validators.required],
-      Image : ['', , Validators.required],
+      Image : ['',Validators.required],
       MultimediaData: [''],
       MultimediaExtension: [''],
       MultimediaFileName: [''],
-      MultimediaType: [''],
-      LeadId : ['', , Validators.required],
+      LeadId : ['', Validators.required],
       TaskEndDateDisplay : ['',Validators.required],
       Priority : ['',Validators.required],
       UserDisplayIds : ['', Validators.required],
       UserIds: [''],
-      TaskDisplayOwners  : ['',, Validators.required],
+      TaskDisplayOwners  : ['', Validators.required],
       TaskOwners : [''],
-      TaskEndDate: ['']  
+      TaskEndDate: [''] 
     });
   }
 
@@ -127,18 +126,6 @@ userDetails: any;
       controls['MultimediaExtension'].setValue(this.imageExt);
       controls['MultimediaFileName'].setValue(this.imageName);
 
-      if (this.imageExt == 'jpeg' || this.imageExt == 'JPEG' || this.imageExt == 'jpg' ||
-        this.imageExt == 'JPG' || this.imageExt == 'png' || this.imageExt == 'PNG' || this.imageExt == 'svg'
-        || this.imageExt == 'SVG') {
-        controls['MultimediaType'].setValue('I');
-      }
-      else {
-        if (this.imageExt) {
-          controls['MultimediaType'].setValue('D');
-        } else {
-          controls['MultimediaType'].setValue('');
-        }
-      }
      this.isLoading = true;
      let customDate = this.datepipe.transform(controls['TaskEndDateDisplay'].value, 'd MMM yyyy hh:mm a')
      controls['TaskEndDate'].setValue(customDate);
@@ -152,7 +139,6 @@ userDetails: any;
   }
 
   handleFileSelect(inputValue: any): void {
-    debugger;
     if (inputValue.files[0] && inputValue.files[0].size < 5000000) {
       var file = inputValue.files[0];
       this.displayFileName = file.name;
@@ -229,7 +215,7 @@ userDetails: any;
     });
   }
    //Search Customer 
-   searchManager(searchText: string, type: string) {
+   searchManager(searchText: string) {
    
       if (searchText != '') {
         this.leadFilter = this.customerList.filter((item : any)=> {
@@ -254,7 +240,6 @@ userDetails: any;
       MultimediaData: '',
       MultimediaExtension: '',
       MultimediaFileName: '',
-      MultimediaType: ''
     });
   }
   closedialog(){

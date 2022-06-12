@@ -14,6 +14,7 @@ export class AddMembersComponent implements OnInit {
   viewLoading: boolean = false;
   totalRecords: number = 0;
   noRecords: boolean = false;
+  disablebutton : boolean = false;
   userIds: any = [];
   previousFromRow: number = 0;
   previousToRow: number = 0;
@@ -21,7 +22,7 @@ export class AddMembersComponent implements OnInit {
   showRemoveUser: boolean = false;
   removeUserDetails: any;
   removeUserList: any = [];
-  addRemove: boolean = false;
+  
 
   constructor(
     private taskService: MytaskService,
@@ -31,59 +32,28 @@ export class AddMembersComponent implements OnInit {
 
   ngOnInit() {
 
-   console.log(this.data)
-
-    if (this.data.usersData != '' && this.data.usersData != undefined) {
-      this.showRemoveUser = true;
+     if(this.data.usersIds) {
       this.getMembersList(1, 100, '');
-      this.removeUserDetails = this.data.usersData;
-    } else if (this.data.usersIds != [] && this.data.usersIds != undefined) {
-      this.addRemove = true;
-      this.getMembersList(1, 100, '');
-      this.previousFromRow = 1;
-      this.previousToRow = 10;
-    }
-    else {
-      this.getMembersList(1, 10, '');
-      this.previousFromRow = 1;
-      this.previousToRow = 10;
-    }
+     }
   }
 
   getMembersList(from: number, to: number, text: string) {
+    this.viewLoading = true
     this.taskService.getCompanyMembers(from, to, text)
       .pipe(
         map((members : any) => {
-          Array.prototype.push.apply(this.memberList, members.data.Members);
-          this.totalRecords = members.data.TotalRecords;
-          this.lastRowIndex = this.memberList.length;
+          this.memberList = members.data.Members;
           this.viewLoading = false;
           this.getChecked();
         })
       ).subscribe();
   }
 
-  onscroll(event : any) {
-    if (this.previousFromRow < this.totalRecords && this.previousToRow < this.totalRecords) {
-      let pos = event.target.scrollTop + event.target.offsetHeight;
-      let max = event.target.scrollHeight;
-      if (pos >= max) {
-        if (this.lastRowIndex + 10 < this.totalRecords || this.lastRowIndex + 10 == this.totalRecords) {
-          this.getMembersList(this.previousFromRow + 10, this.previousToRow + 10, '');
-          this.previousFromRow += 10;
-          this.previousToRow += 10;
-        }
-        return;
-      }
-      return;
-    }
-  }
-
   searchMember(searchValue : any) {
     this.viewLoading = true;
     this.taskService.getCompanyMembers(1, this.totalRecords, searchValue)
-      .pipe(
-        map((members: any) => {
+    .pipe(
+      map((members: any) => {
           this.memberList = members.data.Members;
           if (this.memberList == undefined) {
             this.noRecords = true
@@ -92,8 +62,8 @@ export class AddMembersComponent implements OnInit {
             this.noRecords = false;
           }
         })
-      ).subscribe();
-    this.viewLoading = false;
+        ).subscribe();
+        this.viewLoading = false;
   }
 
   checkedMember(event: any, userId: number, memberName: any) {
@@ -115,13 +85,13 @@ export class AddMembersComponent implements OnInit {
 
   onSubmit() {
       const members = this.userIds;
-      this.dialogRef.close({ members, isEdit: true })
+      this.disablebutton = true;
+      this.dialogRef.close({ members})
     }
 
   getChecked() {
     this.userIds = [];
     let param;
-   
       this.data.usersIds.forEach((element : any) => {
         for (let i = 0; i < this.memberList.length; i++) {
           if (element == this.memberList[i].UserId) {
@@ -133,7 +103,7 @@ export class AddMembersComponent implements OnInit {
           }
         }
       });
-
+      //for users
       if (this.data.usersIds != '' && this.data.usersIds != undefined) {
         for (let i = 0; i < this.memberList.length; i++) {
           for (let j = 0; j < this.data.usersIds.length; j++) {
@@ -142,8 +112,8 @@ export class AddMembersComponent implements OnInit {
             }
           }
         }
-      }
-    
+      }  
+    //  for members
       if (this.data.usersIds != '' && this.data.usersIds != undefined) {
         this.userIds = this.data.usersIds;
         for (let i = 0; i < this.memberList.length; i++) {
@@ -155,8 +125,6 @@ export class AddMembersComponent implements OnInit {
         }
       }
   }
-  
-
   onNoClick() {
     this.dialogRef.close();
   }

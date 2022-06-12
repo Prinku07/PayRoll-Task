@@ -18,7 +18,7 @@ exports: [
    AngularMaterialModule
   ],
 providers : [
-    UnAuthorizedGuard
+    UnAuthorizedGuard,
 ]
 })
 export class ShareModule { }

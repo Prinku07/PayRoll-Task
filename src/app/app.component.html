@@ -1,3 +1,9 @@
+ <!-- <div class="loader-container" *ngIf="loaderservice.isloading" >
+    <mat-spinner style="top:30%; left : 50%"></mat-spinner>
+</div> -->
+
+<ng-http-loader></ng-http-loader>
+
 <div *ngIf="authservice.isLoggedIn()">
     <app-header></app-header>
 </div>

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthService } from './core/Auth/services/auth.service';
+import { LoaderService } from './core/share/loader.service';
 
 @Component({
   selector: 'app-root',
@@ -8,12 +9,8 @@ import { AuthService } from './core/Auth/services/auth.service';
 })
 export class AppComponent {
   title = 'payroll-task';
-  userr: any;
 
-  constructor(public authservice : AuthService) {
-    // this.authservice.currentuser.subscribe(res=>{
-    //   console.log(res)
-    //   this.userr = res;
-    // })
+  constructor(public authservice : AuthService,
+    public loaderservice : LoaderService) {
   }
 }

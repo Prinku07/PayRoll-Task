@@ -5,7 +5,6 @@ import { LoginComponent } from './login/login.component';
 import { RevserGuard } from '../../core/my-task/gaurd/reverse.guard';
 import { CoreModule } from 'src/app/core/core.module';
 import { ShareModule } from 'src/app/share/share.module';
-import { LoaderService } from 'src/app/core/share/loader.service';
 const routes: Routes = [
   {
     path: '',
@@ -26,8 +25,7 @@ const routes: Routes = [
     RouterModule
   ],
   providers: [
-    RevserGuard,
-    LoaderService
+    RevserGuard
   ]
 })
 export class AuthModule { }

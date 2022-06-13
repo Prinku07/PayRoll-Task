@@ -1,7 +1,6 @@
 <div class="loader-container" *ngIf="loaderservice.isloading | async" >
     <mat-spinner style="top:30%; left : 50%"></mat-spinner>
 </div>
-
 <div *ngIf="authservice.isLoggedIn()">
     <app-header></app-header>
 </div>
